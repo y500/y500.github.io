@@ -244,16 +244,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i test.wav -acodec libamr_nb -ab 12.2k -ar 8000 -ac 1 wav2amr.amr</span><br></pre></td></tr></table></figure>
 <p>5.转换wav到mp3：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i test.wav -f mp3 -acodec libmp3lame -y wav2mp3.mp3</span><br></pre></td></tr></table></figure>
-</div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2015/12/24/mysql-table-is-read-only/">mysql Table is read only 的问题</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2015-12-24</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/mysql/">mysql</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/mysql/">mysql</a></span><div class="content"><p>今天导入数据库遇到了这个问题，总结下解决方案：</p>
-<p>1.改可执行权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777  &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;ssbc2&#x2F;</span><br></pre></td></tr></table></figure>
-
-<p>2.该用户组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown root: -R &#x2F;usr&#x2F;lib&#x2F;mysql&#x2F;ssbc2</span><br></pre></td></tr></table></figure>
-<p>3.flush tables</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p flush-tables</span><br></pre></td></tr></table></figure>
-
-<p>ok,问题解决</p>
 </div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2015/12/24/mysql-server-has-gone-away/">MySQL server has gone away 问题</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2015-12-24</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/mysql/">mysql</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/mysql/">mysql</a></span><div class="content"><p>导入数据遇到的：<code>ERROR : (2006, &#39;MySQL server has gone away&#39;)</code> 意思就是连接断开了。</p>
 <p>主要看下面几个参数：</p>
 <p>1.是否重启过，如果uptime太短就是最近重启过</p>
@@ -268,6 +258,16 @@
 
 <p>那就设置大一点儿就行了，这个也可以在上面的那个文件里修改：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; set global max_allowed_packet&#x3D;1024*1024*16;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show global variables like &#39;max_allowed_packet&#39;;</span><br><span class="line">+--------------------+----------+</span><br><span class="line">| Variable_name      | Value    |</span><br><span class="line">+--------------------+----------+</span><br><span class="line">| max_allowed_packet | 16777216 |</span><br><span class="line">+--------------------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2015/12/24/mysql-table-is-read-only/">mysql Table is read only 的问题</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2015-12-24</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/mysql/">mysql</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/mysql/">mysql</a></span><div class="content"><p>今天导入数据库遇到了这个问题，总结下解决方案：</p>
+<p>1.改可执行权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777  &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;ssbc2&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>2.该用户组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown root: -R &#x2F;usr&#x2F;lib&#x2F;mysql&#x2F;ssbc2</span><br></pre></td></tr></table></figure>
+<p>3.flush tables</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p flush-tables</span><br></pre></td></tr></table></figure>
+
+<p>ok,问题解决</p>
 </div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2015/12/23/mysql-allow-remote-access/">MySQL允许远程访问</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2015-12-23</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/mysql/">mysql</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/mysql/">mysql</a></span><div class="content"><p>如果mysql没有设置允许远程访问时进入远程访问就会报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_mysql_exceptions.OperationalError: (1130, &quot;Host &#39;x.x.x.x&#39; is not allowed to connect to this MariaDB server&quot;)</span><br></pre></td></tr></table></figure>
 <p>就要修改mysql数据库的访问权限：</p>
